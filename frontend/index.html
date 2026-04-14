@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clínica Veterinaria</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <!-- Vincula el CSS Externo -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="glass-header">
+            <h1>🐾 Sistema Veterinario</h1>
+            <p>Arquitectura de 4 Capas con Python</p>
+        </header>
+
+        <!-- Main Content (Forms side by side) -->
+        <main class="dashboard">
+
+            <!-- Owner Section -->
+            <section class="glass-card">
+                <h2>Registrar Dueño</h2>
+                <form id="owner-form">
+                    <div class="input-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="owner-name" placeholder="Ej. Juan Pérez" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Residencia</label>
+                        <input type="text" id="owner-residence" placeholder="Ej. Av. Principal 123" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Teléfono</label>
+                        <input type="tel" id="owner-phone" placeholder="Ej. 123-456-7890" required>
+                    </div>
+                    <button type="submit" class="primary-btn">➕ Registrar Dueño</button>
+                </form>
+                <div id="owner-msg" class="message"></div>
+
+                <hr>
+
+                <h3>Dueños Actuales</h3>
+                <div class="list-container" id="owners-list">
+                    <!-- Javascript insertará la lista aquí -->
+                </div>
+            </section>
+
+            <!-- Pet Section -->
+            <section class="glass-card">
+                <h2>Registrar Mascota</h2>
+                <form id="pet-form">
+                    <div class="input-group">
+                        <label>ID del Dueño (Ver lista abajo)</label>
+                        <input type="number" id="pet-owner-id" placeholder="Ej. 1" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Raza</label>
+                        <input type="text" id="pet-breed" placeholder="Ej. Golden Retriever" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Peso (kg)</label>
+                            <input type="number" step="0.1" id="pet-weight" placeholder="15.5" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Edad</label>
+                            <input type="number" id="pet-age" placeholder="2" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Color</label>
+                            <input type="text" id="pet-color" placeholder="Dorado" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Tamaño</label>
+                            <select id="pet-size" required>
+                                <option value="Pequeño">Pequeño</option>
+                                <option value="Mediano">Mediano</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="secondary-btn">🐕 Registrar Mascota</button>
+                </form>
+                <div id="pet-msg" class="message"></div>
+
+                <hr>
+
+                <h3>Mascotas Actuales</h3>
+                <div class="list-container" id="pets-list">
+                    <!-- Javascript insertará la lista aquí -->
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Vincula el JS Externo -->
+    <script src="app.js"></script>
+</body>
+
+</html>
