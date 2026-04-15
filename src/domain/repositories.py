@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional
-from .models import Owner, Pet
+from .models import Owner, Pet, Adoption, Report
 
 class OwnerRepository(ABC):
     @abstractmethod
@@ -26,4 +26,22 @@ class PetRepository(ABC):
 
     @abstractmethod
     def get_all(self) -> List[Pet]:
+        pass
+
+class AdoptionRepository(ABC):
+    @abstractmethod
+    def save(self, adoption: 'Adoption') -> 'Adoption':
+        pass
+
+    @abstractmethod
+    def get_all(self) -> List['Adoption']:
+        pass
+
+class ReportRepository(ABC):
+    @abstractmethod
+    def save(self, report: 'Report') -> 'Report':
+        pass
+
+    @abstractmethod
+    def get_all(self) -> List['Report']:
         pass

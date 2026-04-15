@@ -38,3 +38,48 @@ class RegisterPetUseCase:
             raise ValueError("Los datos de la mascota no son válidos.")
 
         return self.pet_repository.save(pet)
+
+class RegisterAdoptionUseCase:
+    def __init__(self, adoption_repository: 'AdoptionRepository', pet_repository: PetRepository):
+        self.adoption_repository = adoption_repository
+        self.pet_repository = pet_repository
+
+    def execute(self, pet_id: int, adopter_name: str, contact: str) -> 'Adoption':
+        # Verificar que la mascota exista
+        pet = next((p for p in self.pet_repository.get_all() if p.id == pet_id), None)
+        if not pet:
+            raise ValueError(f"No existe ninguna mascota con el ID {pet_id}")
+            
+        from src.domain.models import Adoption
+        adoption = Adoption(
+            id=None,
+            pet_id=pet_id,
+            adopter_name=adopter_name,
+            contact=contact
+        )
+
+        if not adoption.is_valid():
+            raise ValueError("Los datos de la adopción no son válidos.")
+
+        return self.adoption_repository.save(adoption)
+
+class RegisterReportUseCase:
+    def __init__(self, report_repository: 'ReportRepository'):
+        self.report_repository = report_repository
+
+    def execute(self, report_type: str, description: str, location: str, color: str, size: str, contact: str) -> 'Report':
+        from src.domain.models import Report
+        report = Report(
+            id=None,
+            report_type=report_type,
+            description=description,
+            location=location,
+            color=color,
+            size=size,
+            contact=contact
+        )
+
+        if not report.is_valid():
+            raise ValueError("Los datos del denuncio no son válidos (descripción y ubicación son requeridas).")
+
+        return self.report_repository.save(report)

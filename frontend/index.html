@@ -97,6 +97,82 @@
 
                 <h3>Mascotas Actuales</h3>
                 <div class="list-container" id="pets-list">
+                </div>
+            </section>
+
+            <!-- Adoption Section -->
+            <section class="glass-card">
+                <h2>Formulario de Adopción</h2>
+                <form id="adoption-form">
+                    <div class="input-group">
+                        <label>ID de la Mascota a adoptar</label>
+                        <input type="number" id="adoption-pet-id" placeholder="Ej. 1" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Nombre del Adoptante</label>
+                        <input type="text" id="adoption-name" placeholder="Ej. María López" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Contacto (Teléfono/Email)</label>
+                        <input type="text" id="adoption-contact" placeholder="Ej. 3001234567" required>
+                    </div>
+                    <button type="submit" class="primary-btn" style="background:#10b981;">🏡 Registrar Adopción</button>
+                </form>
+                <div id="adoption-msg" class="message"></div>
+
+                <hr>
+
+                <h3>Adopciones Recientes</h3>
+                <div class="list-container" id="adoptions-list">
+                    <!-- Javascript insertará la lista aquí -->
+                </div>
+            </section>
+
+            <!-- Report Section -->
+            <section class="glass-card">
+                <h2>Línea de Denuncios</h2>
+                <form id="report-form">
+                    <div class="input-group">
+                        <label>Tipo de Reporte</label>
+                        <select id="report-type" required>
+                            <option value="Abandono">Abandono</option>
+                            <option value="Pérdida">Pérdida</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Descripción de la Mascota</label>
+                        <input type="text" id="report-description" placeholder="Ej. Perro callejero cojeando" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Ubicación del avistamiento</label>
+                        <input type="text" id="report-location" placeholder="Ej. Parque Simón Bolívar" required>
+                    </div>
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Color</label>
+                            <input type="text" id="report-color" placeholder="Ej. Negro">
+                        </div>
+                        <div class="input-group">
+                            <label>Tamaño</label>
+                            <select id="report-size">
+                                <option value="Pequeño">Pequeño</option>
+                                <option value="Mediano">Mediano</option>
+                                <option value="Grande">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label>Contacto del denunciante</label>
+                        <input type="text" id="report-contact" placeholder="Ej. Opcional - 3009876543">
+                    </div>
+                    <button type="submit" class="secondary-btn" style="background:#ef4444;">🚨 Enviar Denuncia</button>
+                </form>
+                <div id="report-msg" class="message"></div>
+
+                <hr>
+
+                <h3>Últimos Denuncios</h3>
+                <div class="list-container" id="reports-list">
                     <!-- Javascript insertará la lista aquí -->
                 </div>
             </section>

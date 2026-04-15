@@ -5,14 +5,18 @@ document.addEventListener('DOMContentLoaded', () => {
     // Cargar listas iniciales
     fetchOwners();
     fetchPets();
+    fetchAdoptions();
+    fetchReports();
 
     // Eventos de Submit de formularios
     document.getElementById('owner-form').addEventListener('submit', handleOwnerSubmit);
     document.getElementById('pet-form').addEventListener('submit', handlePetSubmit);
+    document.getElementById('adoption-form').addEventListener('submit', handleAdoptionSubmit);
+    document.getElementById('report-form').addEventListener('submit', handleReportSubmit);
 });
 
 // Función de utilidad para mostrar mensajes de éxito/error debajo del formulario
-function showMessage(elementId, text, isError=false) {
+function showMessage(elementId, text, isError = false) {
     const el = document.getElementById(elementId);
     el.textContent = text;
     el.className = 'message ' + (isError ? 'msg-error' : 'msg-success');
@@ -28,7 +32,7 @@ async function fetchOwners() {
         const container = document.getElementById('owners-list');
         container.innerHTML = '';
 
-        if(owners.length === 0) {
+        if (owners.length === 0) {
             container.innerHTML = '<p class="item-text">Aún no hay dueños registrados.</p>';
             return;
         }
@@ -86,7 +90,7 @@ async function fetchPets() {
         const container = document.getElementById('pets-list');
         container.innerHTML = '';
 
-        if(pets.length === 0) {
+        if (pets.length === 0) {
             container.innerHTML = '<p class="item-text">Aún no hay mascotas registradas.</p>';
             return;
         }
@@ -106,7 +110,7 @@ async function fetchPets() {
 }
 
 async function handlePetSubmit(e) {
-    e.preventDefault(); 
+    e.preventDefault();
 
     const payload = {
         owner_id: document.getElementById('pet-owner-id').value,
@@ -128,11 +132,130 @@ async function handlePetSubmit(e) {
         if (res.ok) {
             showMessage('pet-msg', `¡Mascota registrada exitosamente (ID: ${data.id})!`);
             e.target.reset();
-            fetchPets(); 
+            fetchPets();
         } else {
             showMessage('pet-msg', 'Error: ' + data.error, true);
         }
     } catch (err) {
         showMessage('pet-msg', 'Error de red.', true);
+    }
+}
+
+// --- LOGICA ADOPCIONES --- //
+
+async function fetchAdoptions() {
+    try {
+        const res = await fetch('http://localhost:5000/api/adoptions');
+        const adoptions = await res.json();
+        const container = document.getElementById('adoptions-list');
+        container.innerHTML = '';
+
+        if (adoptions.length === 0) {
+            container.innerHTML = '<p class="item-text">Aún no hay adopciones registradas.</p>';
+            return;
+        }
+
+        adoptions.forEach(a => {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            div.style.borderLeftColor = '#10b981';
+            div.innerHTML = `
+                <div class="item-title">ID #${a.id} - Adoptante: ${a.adopter_name}</div>
+                <div class="item-text">ID Mascota: ${a.pet_id} | Contacto: ${a.contact}</div>
+            `;
+            container.appendChild(div);
+        });
+    } catch (e) {
+        console.error("Error trayendo adopciones", e);
+    }
+}
+
+async function handleAdoptionSubmit(e) {
+    e.preventDefault();
+
+    const payload = {
+        pet_id: document.getElementById('adoption-pet-id').value,
+        adopter_name: document.getElementById('adoption-name').value,
+        contact: document.getElementById('adoption-contact').value,
+    };
+
+    try {
+        const res = await fetch('http://localhost:5000/api/adoptions', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            showMessage('adoption-msg', `¡Adopción registrada exitosamente (ID: ${data.id})!`);
+            e.target.reset();
+            fetchAdoptions();
+        } else {
+            showMessage('adoption-msg', 'Error: ' + data.error, true);
+        }
+    } catch (err) {
+        showMessage('adoption-msg', 'Error de red.', true);
+    }
+}
+
+// --- LOGICA DENUNCIOS --- //
+
+async function fetchReports() {
+    try {
+        const res = await fetch('http://localhost:5000/api/reports');
+        const reports = await res.json();
+        const container = document.getElementById('reports-list');
+        container.innerHTML = '';
+
+        if (reports.length === 0) {
+            container.innerHTML = '<p class="item-text">Aún no hay denuncios registrados.</p>';
+            return;
+        }
+
+        reports.forEach(r => {
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            div.style.borderLeftColor = '#ef4444';
+            div.innerHTML = `
+                <div class="item-title">ID #${r.id} - ${r.report_type}: ${r.color} ${r.size}</div>
+                <div class="item-text">Desc: ${r.description} | Lugar: ${r.location} | Contacto: ${r.contact || 'N/A'}</div>
+            `;
+            container.appendChild(div);
+        });
+    } catch (e) {
+        console.error("Error trayendo denuncios", e);
+    }
+}
+
+async function handleReportSubmit(e) {
+    e.preventDefault();
+
+    const payload = {
+        report_type: document.getElementById('report-type').value,
+        description: document.getElementById('report-description').value,
+        location: document.getElementById('report-location').value,
+        color: document.getElementById('report-color').value,
+        size: document.getElementById('report-size').value,
+        contact: document.getElementById('report-contact').value,
+    };
+
+    try {
+        const res = await fetch('http://localhost:5000/api/reports', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+            showMessage('report-msg', `¡Denuncio registrado exitosamente (ID: ${data.id})!`);
+            e.target.reset();
+            fetchReports();
+        } else {
+            showMessage('report-msg', 'Error: ' + data.error, true);
+        }
+    } catch (err) {
+        showMessage('report-msg', 'Error de red.', true);
     }
 }
